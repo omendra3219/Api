@@ -1,0 +1,2765 @@
+openapi: 3.0.0
+info:
+  title: API 2020
+  version: "2020"
+servers:
+- url: https://sandbox.seamlesspay.dev/
+paths:
+  /charges:
+    post:
+      operationId: ' Create a Charge'
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              amount: "105.00"
+              capture: false
+              cvv: "123"
+              order:
+                shipFromPostalCode: 99999-9999
+                shippingAddress:
+                  line1: 400 Madison Ave
+                  line2: 10th Fl
+                  city: New York
+                  state: NY
+                  country: US
+                  postalCode: 11111-1111
+                items:
+                - discountAmount: "20.00"
+                  unitCost: "10.00"
+                  unitOfMeasure: CS
+                  lineNumber: "1"
+                  description: DESCRIPTION-1
+                  taxAmount: "5.00"
+                  quantity: "12"
+                  upc: UPC-1
+                  lineTotal: "105.00"
+                  taxExempt: false
+                  taxRate: "0.05"
+              currency: USD
+              token: TKN_01BMFGDTK30EYH9FWTXPYR50
+              idempotencyKey: 7c62e63ab7fb6d10166b70945dc48b52
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                  amount: "105.00"
+                  authCode: A11111
+                  method: charge
+                  order:
+                    shipFromPostalCode: 99999-9999
+                    shippingAddress:
+                      line1: 400 Madison Ave
+                      line2: 10th Fl
+                      city: New York
+                      state: NY
+                      country: US
+                      postalCode: 11111-1111
+                    items:
+                    - discountAmount: "20.00"
+                      unitCost: "10.00"
+                      unitOfMeasure: CS
+                      lineNumber: "1"
+                      description: DESCRIPTION-1
+                      taxAmount: "5.00"
+                      quantity: "12"
+                      upc: UPC-1
+                      lineTotal: "105.00"
+                      taxExempt: false
+                      taxRate: "0.05"
+                  currency: USD
+                  ipAddress: 192.168.0.1
+                  token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                  statusDescription: Transaction capture success
+                  paymentType: credit_card
+                  paymentNetwork: Visa
+                  lastFour: "1000"
+                  statusCode: captured
+                  status: captured
+                  batch: BCH_01D8JSWWW3YQ1N8FCSKZ6Z8GDR
+                  surchargeFeeAmount: "1.00"
+                  tip: "1.00"
+                  accountType: Credit
+                  transactionDate: 2020-02-24T19:43:12.730Z
+                  verification:
+                    addressLine1: pass
+                    addressPostalCode: pass
+                    cvv: pass
+                  updatedAt: 2020-02-24T19:43:12.730Z
+                  createdAt: 2020-02-24T19:43:12.730Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /charges{list}:
+    get:
+      operationId: List Charges
+      parameters:
+      - name: list
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                    amount: "1.00"
+                    authCode: A11111
+                    adjustments:
+                    - id: ADJ_01BBEBNMZ7VYYMADN9MJ3RDAJM
+                      amount: "105.00"
+                      tip: "1.00"
+                      taxAmount: "5.00"
+                      surchargeFeeAmount: "1.00"
+                    currency: USD
+                    fullyRefunded: "true"
+                    paymentType: credit_card
+                    paymentNetwork: Visa
+                    accountType: Credit
+                    expDate: "0125"
+                    ipAddress: 192.168.0.1
+                    lastFour: "1000"
+                    method: charge
+                    order:
+                      shipFromPostalCode: 99999-9999
+                      shippingAddress:
+                        line1: 400 Madison Ave
+                        line2: 10th Fl
+                        city: New York
+                        country: US
+                        state: NY
+                        postalCode: 11111-1111
+                      items:
+                      - discountAmount: "9.00"
+                        unitCost: "2.00"
+                        unitOfMeasure: CS
+                        lineNumber: "1"
+                        description: DESCRIPTION-1
+                        taxAmount: "109.00"
+                        quantity: "1000"
+                        upc: UPC-1
+                        lineTotal: "2000.00"
+                        taxExempt: true
+                        taxRate: "0.025"
+                    refunds:
+                    - id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                      amount: "1.00"
+                      authCode: A11111
+                      currency: USD
+                      paymentNetwork: Visa
+                      accountType: Credit
+                      metadata:
+                        customOption: example
+                      ipAddress: 192.168.0.1
+                      batch: BCH_01BJE0H947B53D3JRRSJ4W6R9T
+                      lastFour: "1000"
+                      method: refund
+                      status: captured
+                      statusCode: captured
+                      statusDescription: Transaction capture success
+                      token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                      transactionDate: 2022-01-04T14:39:13Z
+                      updatedAt: 2017-12-15T19:08:18.262Z
+                      createdAt: 2017-12-15T19:08:18.262Z
+                    status: authorized
+                    statusCode: approved
+                    statusDescription: Transaction approved
+                    surchargeFeeAmount: "1.00"
+                    token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                    tip: "1.00"
+                    transactionDate: 2022-01-04T14:39:13Z
+                    verification:
+                      addressLine1: pass
+                      addressPostalCode: pass
+                      cvv: pass
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /charges/{transaction_id}:
+    get:
+      operationId: Retrieve a Charge
+      parameters:
+      - name: transaction_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: transaction_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                  amount: "1.00"
+                  authCode: A11111
+                  adjustments:
+                  - id: ADJ_01BBEBNMZ7VYYMADN9MJ3RDAJM
+                    amount: "105.00"
+                    tip: "1.00"
+                    taxAmount: "5.00"
+                    surchargeFeeAmount: "1.00"
+                  currency: USD
+                  fullyRefunded: "true"
+                  paymentType: credit_card
+                  paymentNetwork: Visa
+                  accountType: Credit
+                  expDate: "0125"
+                  ipAddress: 192.168.0.1
+                  lastFour: "1000"
+                  method: charge
+                  order:
+                    shipFromPostalCode: 99999-9999
+                    shippingAddress:
+                      line1: 400 Madison Ave
+                      line2: 10th Fl
+                      city: New York
+                      country: US
+                      state: NY
+                      postalCode: 11111-1111
+                    items:
+                    - discountAmount: "9.00"
+                      unitCost: "2.00"
+                      unitOfMeasure: CS
+                      lineNumber: "1"
+                      description: DESCRIPTION-1
+                      taxAmount: "109.00"
+                      quantity: "1000"
+                      upc: UPC-1
+                      lineTotal: "2000.00"
+                      taxExempt: true
+                      taxRate: "0.025"
+                  refunds:
+                  - id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                    amount: "1.00"
+                    authCode: A11111
+                    currency: USD
+                    paymentNetwork: Visa
+                    accountType: Credit
+                    metadata:
+                      customOption: example
+                    ipAddress: 192.168.0.1
+                    batch: BCH_01BJE0H947B53D3JRRSJ4W6R9T
+                    lastFour: "1000"
+                    method: refund
+                    status: captured
+                    statusCode: captured
+                    statusDescription: Transaction capture success
+                    token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                    transactionDate: 2022-01-04T14:39:13Z
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  status: authorized
+                  statusCode: approved
+                  statusDescription: Transaction approved
+                  surchargeFeeAmount: "1.00"
+                  token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                  tip: "1.00"
+                  transactionDate: 2022-01-04T14:39:13Z
+                  verification:
+                    addressLine1: pass
+                    addressPostalCode: pass
+                    cvv: pass
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /charges/{updatecharge}:
+    put:
+      operationId: Update a Charge
+      parameters:
+      - name: updatecharge
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: transaction_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              amount: "105.00"
+              tip: "1.00"
+              taxAmount: "5.00"
+              surchargeFeeAmount: "1.00"
+              capture: false
+              order:
+                shipFromPostalCode: 99999-9999
+                shippingAddress:
+                  line1: 400 Madison Ave
+                  line2: 10th Fl
+                  city: New York
+                  state: NY
+                  country: US
+                  postalCode: 11111-1111
+                items:
+                - discountAmount: "20.00"
+                  unitCost: "10.00"
+                  unitOfMeasure: CS
+                  lineNumber: "1"
+                  description: DESCRIPTION-1
+                  taxAmount: "5.00"
+                  quantity: "12"
+                  upc: UPC-1
+                  lineTotal: "105.00"
+                  taxExempt: false
+                  taxRate: "0.05"
+              idempotencyKey: 7c62e63ab7fb6d10166b70945dc48b53
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                  amount: "1.00"
+                  authCode: A11111
+                  currency: USD
+                  cardBrand: Visa
+                  cardType: Credit
+                  paymentType: credit_card
+                  ipAddress: 192.168.0.1
+                  lastFour: "1000"
+                  method: charge
+                  status: authorized
+                  statusCode: approved
+                  statusDescription: Transaction approved
+                  surchargeFeeAmount: "1.00"
+                  token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                  tip: string
+                  transactionDate: 2022-01-04T14:39:13Z
+                  verification:
+                    addressLine1: pass
+                    addressPostalCode: pass
+                    cvv: pass
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /charges/{void_charge}:
+    delete:
+      operationId: Void a Charge
+      parameters:
+      - name: void_charge
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: transaction_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                  amount: "1.00"
+                  authCode: A11111
+                  currency: USD
+                  paymentNetwork: Visa
+                  accountType: Credit
+                  ipAddress: 192.168.0.1
+                  lastFour: "1000"
+                  method: charge
+                  status: voided
+                  statusCode: voided
+                  statusDescription: Transaction void success
+                  token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                  transactionDate: 2022-01-04T14:39:13Z
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /gift-cards/{accountNumber|token}/load:
+    patch:
+      operationId: Create a Credit
+      parameters:
+      - name: accountNumber|token
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: accountNumber-or-token
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              amount: "105.00"
+              currency: USD
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                  amount: "1.00"
+                  authCode: A11111
+                  balance: "200.00"
+                  currency: USD
+                  giftCardStatus: active
+                  ipAddress: 192.168.0.1
+                  lastFour: "1000"
+                  paymentType: gift_card
+                  previousBalance: "150.00"
+                  status: settled
+                  statusDescription: Transaction settled
+                  token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                  transactionDate: 2022-01-04T14:39:13Z
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /checkout-sessions:
+    post:
+      operationId: ' Create a Checkout Session'
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/checkoutsessions_body'
+            example:
+              checkoutId: CHF_01CAQDPSAJ8H0BCAXVJFT87TQZ
+              amount: "105.00"
+              checkoutFields:
+                company: "Ledner, Toy and Roob"
+                billing_name: Luella King
+                billing_state: California
+                billing_city: Sofiabury
+                billing_address: 626 Maggie Divide
+                billing_address2: Apt. 441
+              meta:
+                customField: customValue
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: CHS_01DJNFZAA730Z5RM3YSKM2908V
+                  checkoutId: CHF_01CAQDPSAJ8H0BCAXVJFT87TQZ
+                  amount: "105.00"
+                  checkoutFields:
+                    company: "Ledner, Toy and Roob"
+                    billing_name: Luella King
+                    billing_state: California
+                    billing_city: Sofiabury
+                    billing_address: 626 Maggie Divide
+                    billing_address2: Apt. 441
+                  meta:
+                    customField: customValue
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /apple-pay/domains:
+    get:
+      operationId: List Domains
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  domains:
+                  - test-domain.com
+                  - test2.domain.io
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /apple-pay/domains/{domain_name}:
+    delete:
+      operationId: Unregister Domain
+      parameters:
+      - name: domain_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: domain_name
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  domains:
+                  - test2.domain.io
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /customers:
+    post:
+      operationId: Create a Customer
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customers_body'
+            example:
+              name: Michael Smith
+              email: hello@seamlesspay.com
+              companyName: ABC Business
+              description: ABC Business
+              metadata:
+                customOption: example
+              phone: "2125555000"
+              website: https://example.com
+              address:
+                line1: 400 Madison Ave
+                line2: 10th Fl
+                city: New York
+                country: US
+                state: NY
+                postalCode: "10010"
+              paymentMethods:
+              - nickname: Visa card
+                token: TKN_01CBH0CKW6571SC337SWKSDCAE
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: CUS_01CR94R2JQR071FVF76XBGC3W4
+                  name: Michael Smith
+                  email: hello@seamlesspay.com
+                  companyName: ABC Business
+                  description: ABC Business
+                  metadata:
+                    customOption: example
+                  phone: "2125555000"
+                  website: https://example.com
+                  address:
+                    line1: 400 Madison Ave
+                    line2: 10th Fl
+                    city: New York
+                    country: US
+                    state: NY
+                    postalCode: "10010"
+                  paymentMethods:
+                  - billingAddress:
+                      line1: 400 Madison Ave
+                      line2: 10th Fl
+                      city: New York
+                      country: USA
+                      state: NY
+                      postalCode: "10010"
+                    phone: "2125555000"
+                    email: hello@seamlesspay.com
+                    lastFour: "4242"
+                    name: Michael Smith
+                    nickname: Visa card
+                    token: TKN_01CBH0CKW6571SC337SWKSDCAE
+                    routingNumber: "123456789"
+                    paymentType: credit_card
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /customers{list-customers}:
+    get:
+      operationId: List Customers
+      parameters:
+      - name: list-customers
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: CUS_01CR94R2JQR071FVF76XBGC3W4
+                    name: Michael Smith
+                    email: hello@seamlesspay.com
+                    companyName: ABC Business
+                    description: ABC Business
+                    metadata:
+                      customOption: example
+                    phone: "2125555000"
+                    website: https://example.com
+                    address:
+                      line1: 400 Madison Ave
+                      line2: 10th Fl
+                      city: New York
+                      country: US
+                      state: NY
+                      postalCode: "10010"
+                    paymentMethods:
+                    - billingAddress:
+                        line1: 400 Madison Ave
+                        line2: 10th Fl
+                        city: New York
+                        country: USA
+                        state: NY
+                        postalCode: "10010"
+                      phone: "2125555000"
+                      email: hello@seamlesspay.com
+                      lastFour: "4242"
+                      name: Michael Smith
+                      nickname: Visa card
+                      token: TKN_01CBH0CKW6571SC337SWKSDCAE
+                      routingNumber: "123456789"
+                      paymentType: credit_card
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /webhooks-endpoints:
+    post:
+      operationId: Create Webhook
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/webhooksendpoints_body'
+            example:
+              endpointType: Account
+              payloadUrl: https://www.example.com/webhook
+              secret: "50991311"
+              webhookSubscriptions:
+              - event: created
+                service: customers
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: WBH_01BBC61W87JS2JTF2A6SGTM50X
+                  endpointType: Account
+                  payloadUrl: https://www.example.com/webhook
+                  secret: "50991311"
+                  webhookSubscriptions:
+                  - id: WBS_01FFC61W87JS2JTF3A8SGTM70T
+                    event: created
+                    service: customers
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /customers/{customer_id}:
+    get:
+      operationId: ' Retrieve a Customer'
+      parameters:
+      - name: customer_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: customer_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: CUS_01CR94R2JQR071FVF76XBGC3W4
+                  name: Michael Smith
+                  email: hello@seamlesspay.com
+                  companyName: ABC Business
+                  description: ABC Business
+                  metadata:
+                    customOption: example
+                  phone: "2125555000"
+                  website: https://example.com
+                  address:
+                    line1: 400 Madison Ave
+                    line2: 10th Fl
+                    city: New York
+                    country: US
+                    state: NY
+                    postalCode: "10010"
+                  paymentMethods:
+                  - billingAddress:
+                      line1: 400 Madison Ave
+                      line2: 10th Fl
+                      city: New York
+                      country: USA
+                      state: NY
+                      postalCode: "10010"
+                    phone: "2125555000"
+                    email: hello@seamlesspay.com
+                    lastFour: "4242"
+                    name: Michael Smith
+                    nickname: Visa card
+                    token: TKN_01CBH0CKW6571SC337SWKSDCAE
+                    routingNumber: "123456789"
+                    paymentType: credit_card
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /customers/{update-customer}:
+    put:
+      operationId: ' Update a Customer'
+      parameters:
+      - name: update-customer
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: customer_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              name: Michael Smith
+              email: hello@seamlesspay.com
+              companyName: ABC Business
+              description: ABC Business
+              metadata:
+                customOption: example
+              phone: "2125555000"
+              website: https://example.com
+              address:
+                line1: 400 Madison Ave
+                line2: 10th Fl
+                city: New York
+                country: US
+                state: NY
+                postalCode: "10010"
+              paymentMethods:
+              - nickname: Visa card
+                token: TKN_01CBH0CKW6571SC337SWKSDCAE
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: CUS_01CR94R2JQR071FVF76XBGC3W4
+                  name: Michael Smith
+                  email: hello@seamlesspay.com
+                  companyName: ABC Business
+                  description: ABC Business
+                  metadata:
+                    customOption: example
+                  phone: "2125555000"
+                  website: https://example.com
+                  address:
+                    line1: 400 Madison Ave
+                    line2: 10th Fl
+                    city: New York
+                    country: US
+                    state: NY
+                    postalCode: "10010"
+                  paymentMethods:
+                  - billingAddress:
+                      line1: 400 Madison Ave
+                      line2: 10th Fl
+                      city: New York
+                      country: USA
+                      state: NY
+                      postalCode: "10010"
+                    phone: "2125555000"
+                    email: hello@seamlesspay.com
+                    lastFour: "4242"
+                    name: Michael Smith
+                    nickname: Visa card
+                    token: TKN_01CBH0CKW6571SC337SWKSDCAE
+                    routingNumber: "123456789"
+                    paymentType: credit_card
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /webhooks/{webhook_id}:
+    get:
+      operationId: GET_webhooks-webhook_id
+      parameters:
+      - name: webhook_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: newHeader
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: webhook_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: WBE_01C56BV08MX9ACFFN84GQEKEGH
+                  service: tickets
+                  event: created
+                  endpointID: WBH_01C569BBWRP1KSDDDN098Y3127
+                  status: "200"
+                  sentAttempts: 1
+                  response:
+                    success: true
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /webhooks-endpoints/{webhook_endpoint_id}:
+    put:
+      operationId: ' Update Webhook'
+      parameters:
+      - name: webhook_endpoint_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: webhook_endpoint_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/webhooksendpoints_webhook_endpoint_id_body'
+            example:
+              endpointType: Account
+              payloadUrl: https://www.example.com/webhook
+              secret: "50991311"
+              webhookSubscriptions:
+              - event: created
+                service: customers
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: WBH_01BBC61W87JS2JTF2A6SGTM50X
+                  endpointType: Account
+                  payloadUrl: https://www.example.com/webhook
+                  secret: "50991311"
+                  webhookSubscriptions:
+                  - id: WBS_01FFC61W87JS2JTF3A8SGTM70T
+                    event: created
+                    service: customers
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /webhooks:
+    get:
+      operationId: List Webhook Events
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: WBE_01C56BV08MX9ACFFN84GQEKEGH
+                    service: tickets
+                    event: created
+                    endpointID: WBH_01C569BBWRP1KSDDDN098Y3127
+                    status: "200"
+                    sentAttempts: 1
+                    response:
+                      success: true
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /batches:
+    get:
+      operationId: ' List Batches'
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: BCH_01BPH7PHBE8EHYAJRGGMN94DD5
+                    autoBatchTime: 10:00
+                    batchNumber: "70195401736"
+                    batchStatus: BATCH_OPEN
+                    merchantId: "11111111"
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /close-batches:
+    post:
+      operationId: Close a Batch
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              batchID: BCH_01C6ZF2MB6K61AYM63AX89NCS5
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    transactions: 1
+                    batches:
+                    - BCH_01EHSX8WQP0KYJCCK9B80PX3M1
+                  message: Produce transactions successfully!
+                  input:
+                    batchId: BCH_01EHSX8WQP0KYJCCK9B80PX3M1
+                    env: live
+                    merchantId: MRT_01D6K7PCCH4YDAPENGVBRPK861
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /batches/{batch_id}:
+    get:
+      operationId: Retrieve Batch's Transactions
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: newHeader
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: batch_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                    amount: "1.00"
+                    authCode: A11111
+                    currency: USD
+                    cardBrand: Visa
+                    cardType: Credit
+                    paymentType: credit_card
+                    ipAddress: 192.168.0.1
+                    lastFour: "1000"
+                    method: charge
+                    status: authorized
+                    statusCode: approved
+                    statusDescription: Transaction approved
+                    surchargeFeeAmount: "1.00"
+                    token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                    tip: string
+                    transactionDate: 2022-01-04T14:39:13Z
+                    verification:
+                      addressLine1: pass
+                      addressPostalCode: pass
+                      cvv: pass
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /irs-info:
+    get:
+      operationId: List IRS Reporting
+      parameters:
+      - name: newHeader
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  lastChangeDate: 03/02/2017
+                  irsMatch: true
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /payouts:
+    get:
+      operationId: List Payouts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: DPT_01BBC61W87JS2JTF2A6SZWM77K
+                    amount: "105.00"
+                    payoutBankAccount: '****152296'
+                    merchantID: "3463465436543653"
+                    fundingDate: 03/08/2017
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /pci-audit-info:
+    get:
+      operationId: List PCI Audit
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  assessor: Trustwave
+                  companyName: ABC Business
+                  complianceProgram: SAQ_AND_SCAN
+                  customerID: "3425324"
+                  dateAdded: 07/02/2014
+                  dateRegistered: 08/27/2014
+                  firstCertDate: 08/26/2014
+                  lastLoginDate: 08/27/2014
+                  merchantStatus: ACTIVE
+                  merchantType: INET-PA
+                  mostRecentSaqDate: 08/27/2014
+                  mostRecentScanDate: 10/27/2016
+                  pciExpiry: 08/26/2015
+                  pciLevel: 4
+                  pciStatus: EXPIRED
+                  primaryMerchantID: "3544325243543232"
+                  primaryPocEmail: email@merchant.com
+                  primaryPocLastName: Gaon
+                  saqExpiry: 08/26/2015
+                  saqStatus: EXPIRED
+                  saqType: SAQ_C
+                  scanExpiry: 01/26/2017
+                  scanStatus: PASS
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /statements:
+    get:
+      operationId: List Statements
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: ST_01BBC61W87JS2JTF2A6SZWM99Y
+                    merchantID: "5342543254235324"
+                    month: "04"
+                    pdfBase64: JVBERi0xLjMKJ...
+                    year: "2016"
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /disputes:
+    get:
+      operationId: List Disputes
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: CHK_01BBC61W87JS2JTF2A6SZWM11Y
+                    amount: 211.15
+                    caseNumber: 043 345 34534
+                    cbCode: "430"
+                    cbdetail: []
+                    disputeDate: 01/30/2017
+                    lastFour: "7982"
+                    merchantID: "3425423542523523245424"
+                    repeatCb: "1"
+                    transactionDate: 2020-02-24T19:43:12.730Z
+                    transactionID: 004-463436346543643643
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /retrievals:
+    get:
+      operationId: ' List Retrievals'
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: RTL_01BBC61W87JS2JTF2A6SZWM33Y
+                    amount: "105.00"
+                    caseNumber: "34643"
+                    lastFour: "6773"
+                    merchantID: "2142314234231412"
+                    retrievalCode: "6021"
+                    retrievalDate: 01/16/2017
+                    transactionDate: 2020-02-24T19:43:12.730Z
+                    transactionID: 004-463436346543643643
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /bin-lookups/{BIN}:
+    get:
+      operationId: ' BIN Lookups'
+      parameters:
+      - name: BIN
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: BIN
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  bin: "411111"
+                  issuingBank: Bank Name
+                  country: USA
+                  paymentNetwork: Visa
+                  accountType: Credit
+                  cardDetail: True credit (No PIN/Signature capability)
+                  debitNetwork: ACCEL FISERV – Pinned POS
+                  debitSignatureNetworkParticipant: ""
+                  fsa: "No"
+                  prepaidIndicator: "No"
+                  productID: Visa Classic
+                  regulatorIndicator: "N"
+                  cardClass: Consumer
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /refunds:
+    get:
+      operationId: ' List Refunds'
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                    amount: "1.00"
+                    authCode: A11111
+                    currency: USD
+                    paymentNetwork: Visa
+                    accountType: Credit
+                    metadata:
+                      customOption: example
+                    ipAddress: 192.168.0.1
+                    batch: BCH_01BJE0H947B53D3JRRSJ4W6R9T
+                    lastFour: "1000"
+                    method: refund
+                    status: captured
+                    statusCode: captured
+                    statusDescription: Transaction capture success
+                    token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                    transactionDate: 2022-01-04T14:39:13Z
+                    updatedAt: 2017-12-15T19:08:18.262Z
+                    createdAt: 2017-12-15T19:08:18.262Z
+                  pagination:
+                    count: 10
+                    page: 1
+                    pages: 2
+                    size: 19
+                  total: 0
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+  /refunds/{transaction_id}:
+    put:
+      operationId: ' Update a Refund'
+      parameters:
+      - name: transaction_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: Bearer c2tfMDFGUkpTRDJXSzcwTTJONzRGWlpRUDM3Tkc=
+      - name: API-Version
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: transaction_id
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/refunds_transaction_id_body'
+            example:
+              metadata:
+                customOption: example
+              idempotencyKey: 7c62e63ab7fb6d10166b70945dc48b52
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: TR_01BBEBNMZ7VYYMADN8MJ4RDBJX
+                  amount: "1.00"
+                  authCode: A11111
+                  currency: USD
+                  paymentNetwork: Visa
+                  accountType: Credit
+                  metadata:
+                    customOption: example
+                  ipAddress: 192.168.0.1
+                  batch: BCH_01BJE0H947B53D3JRRSJ4W6R9T
+                  lastFour: "1000"
+                  method: refund
+                  status: captured
+                  statusCode: captured
+                  statusDescription: Transaction capture success
+                  token: TKN_01BMFGDTK30EYH9FWTXPYR50
+                  transactionDate: 2022-01-04T14:39:13Z
+                  updatedAt: 2017-12-15T19:08:18.262Z
+                  createdAt: 2017-12-15T19:08:18.262Z
+                x-content-type: application/json
+        "401":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotAuthenticated
+                  code: 401
+                  className: not-authenticated
+                  data:
+                    statusCode: 401
+                    statusDescription: Authentication failed
+                    errors:
+                    - null
+                x-content-type: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: NotFound
+                  message: Item not found.
+                  code: 404
+                  className: not-found
+                x-content-type: application/json
+        "422":
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Unprocessable
+                  message: Validation error
+                  code: 422
+                  className: unprocessable
+                  data:
+                    statusCode: "110"
+                    statusDescription: Validation error
+                    errors:
+                    - error
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    checkoutsessions_body:
+      required:
+      - amount
+      - checkoutId
+      type: object
+      properties:
+        amount:
+          type: string
+          example: Example
+        checkoutId:
+          type: string
+          example: Example
+        checkoutFields:
+          type: string
+          example: Example
+        company:
+          type: string
+          example: Example
+        billing_name:
+          type: string
+          example: Example
+        billing_state:
+          type: string
+          example: Example
+        billing_city:
+          type: string
+          example: Example
+        billing_address:
+          type: string
+          example: Example
+        billing_address2:
+          type: string
+          example: Example
+        billing_zip:
+          type: string
+          example: Example
+        phone_number:
+          type: string
+          example: Example
+        email:
+          type: string
+          example: Example
+        customFields:
+          type: string
+          example: Example
+        custom_field1:
+          type: string
+          example: Example
+        custom_field2:
+          type: string
+          example: Example
+        meta:
+          type: string
+          example: Example
+    customers_body:
+      required:
+      - email
+      - name
+      - token
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example
+        email:
+          type: string
+          example: Example
+        companyName:
+          type: string
+          example: Example
+        description:
+          type: string
+          example: Example
+        metadata:
+          type: string
+          example: Example
+        phone:
+          type: string
+          example: Example
+        website:
+          type: string
+          example: Example
+        line1:
+          type: string
+          example: Example
+        line2:
+          type: string
+          example: Example
+        city:
+          type: string
+          example: Example
+        country:
+          type: string
+          example: Example
+        state:
+          type: string
+          example: Example
+        postalCode:
+          type: string
+          example: Example
+        paymentMethods:
+          type: string
+          example: Example
+        nickname:
+          type: string
+          example: Example
+        token:
+          type: string
+          example: Example
+    webhooksendpoints_body:
+      required:
+      - endpointType
+      - payloadUrl
+      - secret
+      - webhookSubscriptions
+      type: object
+      properties:
+        endpointType:
+          type: string
+          example: Example
+        payloadUrl:
+          type: string
+          example: Example
+        secret:
+          type: string
+          example: Example
+        webhookSubscriptions:
+          type: string
+          example: Example
+        event:
+          type: string
+          example: Example
+        service:
+          type: string
+          example: Example
+    webhooksendpoints_webhook_endpoint_id_body:
+      required:
+      - endpointType
+      - payloadUrl
+      - secret
+      - webhookSubscriptions
+      type: object
+      properties:
+        endpointType:
+          type: string
+          example: Example
+        payloadUrl:
+          type: string
+          example: Example
+        secret:
+          type: string
+          example: Example
+        webhookSubscriptions:
+          type: string
+          example: Example
+        event:
+          type: string
+          example: Example
+        service:
+          type: string
+          example: Example
+    refunds_transaction_id_body:
+      required:
+      - metadata
+      type: object
+      properties:
+        metadata:
+          type: string
+          example: Example
+        idempotencyKey:
+          type: string
+          example: Example
+  responses: {}
+  parameters: {}
+  examples: {}
+  requestBodies: {}
+  headers: {}
+  securitySchemes: {}
+  links: {}
+  callbacks: {}
+x-annotation-Charge:
+  name: Group
+  description: Group annotation
+x-annotation-Credits:
+  name: Group
+  description: Group annotation
+x-annotation-Apple-Pay:
+  name: Group
+  description: Group annotation
+x-annotation-Checkout-Sessions:
+  name: Group
+  description: Group annotation
+x-annotation-Customers:
+  name: Group
+  description: Group annotation
+x-annotation-Webhooks:
+  name: Group
+  description: Group annotation
+x-annotation-Webhook-Events:
+  name: Group
+  description: Group annotation
+x-annotation-Batches:
+  name: Group
+  description: Group annotation
+x-annotation-Payouts:
+  name: Group
+  description: Group annotation
+x-annotation-Statements:
+  name: Group
+  description: Group annotation
+x-annotation-PCI-Audit:
+  name: Group
+  description: Group annotation
+x-annotation-IRS-Reporting:
+  name: Group
+  description: Group annotation
+x-annotation-Disputes:
+  name: Group
+  description: Group annotation
+x-annotation-Retrievals:
+  name: Group
+  description: Group annotation
+x-annotation-BIN-Lookups:
+  name: Group
+  description: Group annotation
+x-annotation-Refunds:
+  name: Group
+  description: Group annotation
